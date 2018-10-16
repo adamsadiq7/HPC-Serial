@@ -59,46 +59,35 @@ void stencil(const int nx, const int ny, double *  image, double *  tmp_image) {
   
     //top cases
     
-    for (short j = 1; j<nx-1; ++j){
+    for (int j = 1; j<nx-1; ++j){
       tmp_image[j] = image[j] * 0.6 + (image[j-1] + image[j+1] + image[j+nx]) * 0.1;
     } 
 
-//FINISHED BUT UNVERIFIED
-
     //bottom cases
     
-    for (short j = 1; j<nx-1; ++j){
-      tmp_image[nx*ny-(nx-2)+j] = image[nx*ny-(nx-2)+j] * 0.6 + (image[nx*ny-(nx-1)+j] + image[nx*ny-(nx-3)+j] + image[nx*ny-1-(nx*2)+j]) * 0.1;
+    for (int j = 1; j<nx-1; ++j){
+      tmp_image[nx*ny-(nx)+j] = image[nx*ny-(nx)+j] * 0.6 + (image[nx*ny-(nx)+j-1] + image[nx*ny-(nx)+j+1] + image[nx*ny-1-(nx)+j-nx]) * 0.1;
     }
-
-
-//TODO
 
     //1. left cases
 
-    for (short i = 1; i<nx-1; ++i){
-      tmp_image[nx*ny-(nx-1)] = image[nx*ny-(nx-1)] * 0.6 + (image[nx*ny-(nx)] + image[nx*ny-(nx-2)] + image[nx*ny-(nx*2)]) * 0.1;
+    for (int j = 1; j<nx-1; ++j){
+      tmp_image[ny*j] = image[ny*j] * 0.6 + (image[(nx*j)+1] + image[nx*(j-1)] + image[nx*(j+1)]) * 0.1;
     }
-
+    
     //2. right cases
 
-    for (short j = 1; j<nx-1; ++j){
-      tmp_image[nx*ny-(nx-1)] = image[nx*ny-(nx-1)] * 0.6 + (image[nx*ny-(nx)] + image[nx*ny-(nx-2)] + image[nx*ny-(nx*2)]) * 0.1;
+    for (int j = 1; j<nx-1; ++j){
+      tmp_image[nx*(j+1)-(1)] = image[nx*(j+1)-(1)] * 0.6 + (image[nx*(j)-(1)] + image[nx*(j+2)-(1)] + image[nx*(j+1)-(2)]) * 0.1;
     }
 
     //3. middle cases
 
-  
-  for (short j = 0; j < ny; ++j) {
-    for (short i = 0; i < nx; ++i) {
-      tmp_image[j+i*ny] = image[j+i*ny] * 0.6;
-
-      tmp_image[j+i*ny] += image[j  +(i-1)*ny] * 0.1;
-      tmp_image[j+i*ny] += image[j  +(i+1)*ny] * 0.1;
-      tmp_image[j+i*ny] += image[j-1+i*ny] * 0.1;
-      tmp_image[j+i*ny] += image[j+1+i*ny] * 0.1;
+    for (int j = 0; j < nx*ny; j+=nx) {
+      for(int i = 0; i<ny-2;++i){
+        tmp_image[j+i+nx+1] = image[j+nx+1+i] * 0.6 + (image[j+i+nx+1+1] + image[j+i+nx+1-1] + image[j+i+nx+1-nx] + image[j+i+nx+1+nx]) * 0.1;
+      }
     }
-  }
 }
 
 // Create the input image
