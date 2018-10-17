@@ -66,7 +66,7 @@ void stencil(const int nx, const int ny, double *  image, double *  tmp_image) {
     //bottom cases
     
     for (int j = 1; j<nx-1; ++j){
-      tmp_image[nx*ny-(nx)+j] = image[nx*ny-(nx)+j] * 0.6 + (image[nx*ny-(nx)+j-1] + image[nx*ny-(nx)+j+1] + image[nx*ny-(2*nx)+j]) * 0.1;
+      tmp_image[nx*ny-nx+j] = image[nx*ny-(nx)+j] * 0.6 + (image[nx*ny-(nx)+j-1] + image[nx*ny-(nx)+j+1] + image[nx*ny-(2*nx)+j]) * 0.1;
     }
 
     //1. left cases
@@ -78,13 +78,13 @@ void stencil(const int nx, const int ny, double *  image, double *  tmp_image) {
     //2. right cases
 
     for (int j = 1; j<nx-1; ++j){
-      tmp_image[nx*(j+1)-(1)] = image[nx*(j+1)-(1)] * 0.6 + (image[nx*(j)-(1)] + image[nx*(j+2)-(1)] + image[nx*(j+1)-(2)]) * 0.1;
+      tmp_image[nx*(j+1)-1] = image[nx*(j+1)-1] * 0.6 + (image[nx*j-1] + image[nx*(j+2)-1] + image[nx*(j+1)-2]) * 0.1;
     }
 
     //3. middle cases
 
     for (int j = 0; j < (nx*(nx-2)); j+=nx) {
-      for(int i = 1; i<ny-2;++i){
+      for(int i = 1; i<ny-1;++i){
         tmp_image[j+i+nx] = image[j+i+nx] * 0.6 + (image[j+i+nx+1] + image[j+i+nx-1] + image[j+i] + image[j+i+(nx*2)]) * 0.1;
       }
     }
