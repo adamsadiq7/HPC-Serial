@@ -61,12 +61,12 @@ void stencil(const int nx, const int ny, double *  image, double *  tmp_image) {
     
     for (int j = 1; j<nx-1; ++j){
       tmp_image[j] = image[j] * 0.6 + (image[j-1] + image[j+1] + image[j+nx]) * 0.1;
-    } 
+    }
 
     //bottom cases
     
     for (int j = 1; j<nx-1; ++j){
-      tmp_image[nx*ny-(nx)+j] = image[nx*ny-(nx)+j] * 0.6 + (image[nx*ny-(nx)+j-1] + image[nx*ny-(nx)+j+1] + image[nx*ny-1-(nx)+j-nx]) * 0.1;
+      tmp_image[nx*ny-(nx)+j] = image[nx*ny-(nx)+j] * 0.6 + (image[nx*ny-(nx)+j-1] + image[nx*ny-(nx)+j+1] + image[nx*ny-(2*nx)+j]) * 0.1;
     }
 
     //1. left cases
