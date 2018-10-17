@@ -83,8 +83,8 @@ void stencil(const int nx, const int ny, double *  image, double *  tmp_image) {
 
     //3. middle cases
 
-    for (int i = 0; i < (nx*(nx-2)); i+=nx) {
-      for(int j = 1; j<ny-1;++j){
+    for (int j = 0; j < (nx*(nx-2)); j+=nx) {
+      for(int i = 1; i<ny-1;++i){
         tmp_image[j+i+nx] = image[j+i+nx] * 0.6 + (image[j+i+nx+1] + image[j+i+nx-1] + image[j+i] + image[j+i+(nx*2)]) * 0.1;
       }
     }
