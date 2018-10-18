@@ -141,16 +141,16 @@ void output_image(const char * file_name, const int nx, const int ny, double *im
   // This is used to rescale the values
   // to a range of 0-255 for output
   double maximum = 0.0;
-  for (int j = 0; j < ny; ++j) {
-    for (int i = 0; i < nx; ++i) {
+  for (int j = 1; j < ny+1; ++j) {
+    for (int i = 1; i < nx+1; ++i) {
       if (image[j+i*ny] > maximum)
         maximum = image[j+i*ny];
     }
   }
 
   // Output image, converting to numbers 0-255
-  for (int j = 0; j < ny; ++j) {
-    for (int i = 0; i < nx; ++i) {
+  for (int j = 1; j < ny+1; ++j) {
+    for (int i = 1; i < nx+1; ++i) {
       fputc((char)(255.0*image[j+i*ny]/maximum), fp);
     }
   }
