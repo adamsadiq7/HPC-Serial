@@ -25,8 +25,8 @@ int main(int argc, char *argv[]) {
   int niters = atoi(argv[3]);
 
   // Allocate the image
-  double *image = malloc(sizeof(double)*nx*ny);
-  double *tmp_image = malloc(sizeof(double)*nx*ny);
+  double *image = malloc(sizeof(double)*(nx+2)*(ny+2));
+  double *tmp_image = malloc(sizeof(double)*(nx+2)*(ny+2));
 
   // Set the input image
   init_image(nx, ny, image, tmp_image);
@@ -51,41 +51,52 @@ int main(int argc, char *argv[]) {
 
 void stencil(const int nx, const int ny, double *  image, double *  tmp_image) {
   
-    //Corner cases
-    tmp_image[0] = image[0] * 0.6 + (image[nx] + image[1]) * 0.1;
-    tmp_image[nx-1] = image[nx-1] * 0.6 + (image[nx*2-1]+ image[nx-2]) * 0.1;
-    tmp_image[nx*ny-(nx)] = image[nx*ny-(nx)] * 0.6 + (image[nx*ny-(nx*2)] + image[nx*ny-(nx-1)]) * 0.1;
-    tmp_image[nx*ny-1] = image[nx*ny-1] * 0.6 + (image[nx*ny-(nx+1)] + image[nx*ny-2]) * 0.1;
+    // //Corner cases
+    // tmp_image[0] = image[0] * 0.6 + (image[nx] + image[1]) * 0.1;
+    // tmp_image[nx-1] = image[nx-1] * 0.6 + (image[nx*2-1]+ image[nx-2]) * 0.1;
+    // tmp_image[nx*ny-(nx)] = image[nx*ny-(nx)] * 0.6 + (image[nx*ny-(nx*2)] + image[nx*ny-(nx-1)]) * 0.1;
+    // tmp_image[nx*ny-1] = image[nx*ny-1] * 0.6 + (image[nx*ny-(nx+1)] + image[nx*ny-2]) * 0.1;
   
-    //top cases
+    // //top cases
     
-    for (int j = 1; j<nx-1; ++j){
-      tmp_image[j] = image[j] * 0.6 + (image[j-1] + image[j+1] + image[j+nx]) * 0.1;
-    }
+    // for (int j = 1; j<nx-1; ++j){
+    //   tmp_image[j] = image[j] * 0.6 + (image[j-1] + image[j+1] + image[j+nx]) * 0.1;
+    // }
 
-    //bottom cases
+    // //bottom cases
     
-    for (int j = 1; j<nx-1; ++j){
-      tmp_image[nx*ny-nx+j] = image[nx*ny-(nx)+j] * 0.6 + (image[nx*ny-(nx)+j-1] + image[nx*ny-(nx)+j+1] + image[nx*ny-(2*nx)+j]) * 0.1;
-    }
+    // for (int j = 1; j<nx-1; ++j){
+    //   tmp_image[nx*ny-nx+j] = image[nx*ny-(nx)+j] * 0.6 + (image[nx*ny-(nx)+j-1] + image[nx*ny-(nx)+j+1] + image[nx*ny-(2*nx)+j]) * 0.1;
+    // }
 
-    //1. left cases
+    // //1. left cases
 
-    for (int j = 1; j<nx-1; ++j){
-      tmp_image[ny*j] = image[ny*j] * 0.6 + (image[(nx*j)+1] + image[nx*(j-1)] + image[nx*(j+1)]) * 0.1;
-    }
+    // for (int j = 1; j<nx-1; ++j){
+    //   tmp_image[ny*j] = image[ny*j] * 0.6 + (image[(nx*j)+1] + image[nx*(j-1)] + image[nx*(j+1)]) * 0.1;
+    // }
     
-    //2. right cases
+    // //2. right cases
 
-    for (int j = 1; j<nx-1; ++j){
-      tmp_image[nx*(j+1)-1] = image[nx*(j+1)-1] * 0.6 + (image[nx*j-1] + image[nx*(j+2)-1] + image[nx*(j+1)-2]) * 0.1;
-    }
+    // for (int j = 1; j<nx-1; ++j){
+    //   tmp_image[nx*(j+1)-1] = image[nx*(j+1)-1] * 0.6 + (image[nx*j-1] + image[nx*(j+2)-1] + image[nx*(j+1)-2]) * 0.1;
+    // }
 
     //3. middle cases
 
-    for (int j = 0; j < (nx*(nx-2)); j+=nx) {
-      for(int i = 1; i<ny-1;++i){
-        tmp_image[j+i+nx] = image[j+i+nx] * 0.6 + (image[j+i+nx+1] + image[j+i+nx-1] + image[j+i] + image[j+i+(nx*2)]) * 0.1;
+    // for (int j = nx + 3; j < (nx*(nx-2)) + nx + 3; j+=nx) {
+    //   for(int i = 1; i<ny-1;++i){
+    //     tmp_image[j+i+nx] = image[j+i+nx] * 0.6 + (image[j+i+nx+1] + image[j+i+nx-1] + image[j+i] + image[j+i+(nx*2)]) * 0.1;
+    //   }
+    // }
+
+
+
+
+
+
+    for (int i = 1; i < ny + 1 ; ++i){
+      for (int j = 1; j < nx + 1 ; ++j){
+        tmp_image[j+i*(ny+2)] = image[j+i*(ny+2)] * 0.6 + (image[j-1+i*(ny+2)] + image[j+1+i*(ny+2)] + image[j+(i-1)*(ny+2)] + image[j+(i+1)*(nx+2)]) * 0.1;
       }
     }
 }
@@ -93,8 +104,8 @@ void stencil(const int nx, const int ny, double *  image, double *  tmp_image) {
 // Create the input image
 void init_image(const int nx, const int ny, double *  image, double *  tmp_image) {
   // Zero everything
-  for (int j = 0; j < ny; ++j) {
-    for (int i = 0; i < nx; ++i) {
+  for (int j = 0; j < ny+2; ++j) {
+    for (int i = 0; i < nx+2; ++i) {
       image[j+i*ny] = 0.0;
       tmp_image[j+i*ny] = 0.0;
     }
@@ -103,8 +114,8 @@ void init_image(const int nx, const int ny, double *  image, double *  tmp_image
   // Checkerboard
   for (int j = 0; j < 8; ++j) {
     for (int i = 0; i < 8; ++i) {
-      for (int jj = j*ny/8; jj < (j+1)*ny/8; ++jj) {
-        for (int ii = i*nx/8; ii < (i+1)*nx/8; ++ii) {
+      for (int jj = j*ny/8 + nx + 3; jj < (j+1)*ny/8 + nx + 3; ++jj) {
+        for (int ii = i*nx/8 + ny + 3; ii < (i+1)*nx/8 + ny + 3; ++ii) {
           if ((i+j)%2)
           image[jj+ii*ny] = 100.0;
         }
