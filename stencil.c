@@ -6,7 +6,7 @@
 // Define output file name
 #define OUTPUT_FILE "stencil.pgm"
 
-void stencil(const int nx, const int ny, double *  image, double *  tmp_image);
+void stencil(const int nx, const int ny, float *  image, float *  tmp_image);
 void init_image(const int nx, const int ny, double *  image, double *  tmp_image);
 void output_image(const char * file_name, const int nx, const int ny, double *image);
 double wtime(void);
@@ -49,61 +49,45 @@ int main(int argc, char *argv[]) {
   free(image);
 }
 
-void stencil(const int nx, const int ny, double *  image, double *  tmp_image) {
+void stencil(const int nx, const int ny, float *  image, float *  tmp_image) {
   
     //Corner cases
-    tmp_image[0] = image[0] * 0.6 + (image[nx] + image[1]) * 0.1;
-    tmp_image[nx-1] = image[nx-1] * 0.6 + (image[nx*2-1]+ image[nx-2]) * 0.1;
-    tmp_image[nx*ny-(nx)] = image[nx*ny-(nx)] * 0.6 + (image[nx*ny-(nx*2)] + image[nx*ny-(nx-1)]) * 0.1;
-    tmp_image[nx*ny-1] = image[nx*ny-1] * 0.6 + (image[nx*ny-(nx+1)] + image[nx*ny-2]) * 0.1;
-  
+    tmp_image[0] = image[0] * 0.6f + (image[nx] + image[1]) * 0.1f;
+    tmp_image[nx-1] = image[nx-1] * 0.6f + (image[nx*2-1]+ image[nx-2]) * 0.1f;
+    tmp_image[nx*ny-(nx)] = image[nx*ny-(nx)] * 0.6f + (image[nx*ny-(nx*2)] + image[nx*ny-(nx-1)]) * 0.1f;
+    tmp_image[nx*ny-1] = image[nx*ny-1] * 0.6f + (image[nx*ny-(nx+1)] + image[nx*ny-2]) * 0.1f;
 
-
-
-    for (int j = 0; j<nx-1;++j){
-
-    }
-
-    
     //top cases
     
     for (int j = 1; j<nx-1; ++j){
-      tmp_image[j] = image[j] * 0.6 + (image[j-1] + image[j+1] + image[j+nx]) * 0.1;
+      tmp_image[j] = image[j] * 0.6f + (image[j-1] + image[j+1] + image[j+nx]) * 0.1f;
     }
 
     //bottom cases
     
     for (int j = 1; j<nx-1; ++j){
-      tmp_image[nx*ny-nx+j] = image[nx*ny-(nx)+j] * 0.6 + (image[nx*ny-(nx)+j-1] + image[nx*ny-(nx)+j+1] + image[nx*ny-(2*nx)+j]) * 0.1;
+      tmp_image[nx*ny-nx+j] = image[nx*ny-(nx)+j] * 0.6f + (image[nx*ny-(nx)+j-1] + image[nx*ny-(nx)+j+1] + image[nx*ny-(2*nx)+j]) * 0.1f;
     }
 
     //1. left cases
 
     for (int j = 1; j<nx-1; ++j){
-      tmp_image[ny*j] = image[ny*j] * 0.6 + (image[(nx*j)+1] + image[nx*(j-1)] + image[nx*(j+1)]) * 0.1;
+      tmp_image[ny*j] = image[ny*j] * 0.6f + (image[(nx*j)+1] + image[nx*(j-1)] + image[nx*(j+1)]) * 0.1f;
     }
     
     //2. right cases
 
     for (int j = 1; j<nx-1; ++j){
-      tmp_image[nx*(j+1)-1] = image[nx*(j+1)-1] * 0.6 + (image[nx*j-1] + image[nx*(j+2)-1] + image[nx*(j+1)-2]) * 0.1;
+      tmp_image[nx*(j+1)-1] = image[nx*(j+1)-1] * 0.6f + (image[nx*j-1] + image[nx*(j+2)-1] + image[nx*(j+1)-2]) * 0.1f;
     }
-
-
-
-
-
-
-
 
     //3. middle cases
 
     for (int j = 0; j < (nx*(nx-2)); j+=nx) {
       for(int i = 1; i<ny-1;++i){
-        tmp_image[j+i+nx] = image[j+i+nx] * 0.6 + (image[j+i+nx+1] + image[j+i+nx-1] + image[j+i] + image[j+i+(nx*2)]) * 0.1;
+        tmp_image[j+i+nx] = image[j+i+nx] * 0.6f + (image[j+i+nx+1] + image[j+i+nx-1] + image[j+i] + image[j+i+(nx*2)]) * 0.1f;
       }
     }
-
 
 
 }
