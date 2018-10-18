@@ -57,6 +57,14 @@ void stencil(const int nx, const int ny, double *  image, double *  tmp_image) {
     tmp_image[nx*ny-(nx)] = image[nx*ny-(nx)] * 0.6 + (image[nx*ny-(nx*2)] + image[nx*ny-(nx-1)]) * 0.1;
     tmp_image[nx*ny-1] = image[nx*ny-1] * 0.6 + (image[nx*ny-(nx+1)] + image[nx*ny-2]) * 0.1;
   
+
+
+
+    for (int j = 0; j<nx-1;++j){
+
+    }
+
+    
     //top cases
     
     for (int j = 1; j<nx-1; ++j){
@@ -81,6 +89,13 @@ void stencil(const int nx, const int ny, double *  image, double *  tmp_image) {
       tmp_image[nx*(j+1)-1] = image[nx*(j+1)-1] * 0.6 + (image[nx*j-1] + image[nx*(j+2)-1] + image[nx*(j+1)-2]) * 0.1;
     }
 
+
+
+
+
+
+
+
     //3. middle cases
 
     for (int j = 0; j < (nx*(nx-2)); j+=nx) {
@@ -88,6 +103,9 @@ void stencil(const int nx, const int ny, double *  image, double *  tmp_image) {
         tmp_image[j+i+nx] = image[j+i+nx] * 0.6 + (image[j+i+nx+1] + image[j+i+nx-1] + image[j+i] + image[j+i+(nx*2)]) * 0.1;
       }
     }
+
+
+
 }
 
 // Create the input image
