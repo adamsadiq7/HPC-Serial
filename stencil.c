@@ -58,7 +58,7 @@ void stencil(const int nx, const int ny, float *  image, float *  tmp_image) {
     tmp_image[nx*ny-1] = image[nx*ny-1] * 0.6f + (image[nx*ny-(nx+1)] + image[nx*ny-2]) * 0.1f;
 
     //top cases
-    
+
     for (int j = 1; j<nx-1; ++j){
       tmp_image[j] = image[j] * 0.6f + (image[j-1] + image[j+1] + image[j+nx]) * 0.1f;
     }
@@ -83,6 +83,7 @@ void stencil(const int nx, const int ny, float *  image, float *  tmp_image) {
 
     //3. middle cases
 
+    #pragma omp simd
     for (int j = 0; j < (nx*(nx-2)); j+=nx) {
       for(int i = 1; i<ny-1;++i){
         tmp_image[j+i+nx] = image[j+i+nx] * 0.6f + (image[j+i+nx+1] + image[j+i+nx-1] + image[j+i] + image[j+i+(nx*2)]) * 0.1f;
