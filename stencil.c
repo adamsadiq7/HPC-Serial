@@ -49,7 +49,7 @@ int main(int argc, char *argv[]) {
   free(image);
 }
 
-void stencil(const int nx, const int ny, float *  image, float *  tmp_image) {
+void stencil(const int nx, const int ny, float *  restrict image, float *  restrict tmp_image) {
   
     //Corner cases
     tmp_image[0] = image[0] * 0.6f + (image[nx] + image[1]) * 0.1f;
