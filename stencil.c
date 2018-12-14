@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/time.h>
+#include <openmp.h>
 
 // Define output file name
 #define OUTPUT_FILE "stencil.pgm"
@@ -49,6 +50,8 @@ int main(int argc, char *argv[]) {
 }
 
 void stencil(const int nx, const int ny, double *  image, double *  tmp_image) {
+// 
+  #pragma omp parallel for
   for (int j = 0; j < ny; ++j) {
     for (int i = 0; i < nx; ++i) {
       tmp_image[j+i*ny] = image[j+i*ny] * 3.0/5.0;
